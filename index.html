@@ -159,6 +159,28 @@
   }
 }
 
+.responsive-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100vw;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.responsive-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
 
 
     .site-footer {
@@ -212,7 +234,9 @@
   <div class="carousel-wrapper" id="tiktokCarousel">
     <button class="nav-btn prev-btn" onclick="moveTikTok(-1)">❮</button>
     <div class="video-box" id="ttLeft"><iframe id="ttLeftIframe" allow="autoplay" muted></iframe></div>
-    <div class="video-box active" id="ttCenter"><iframe id="ttCenterIframe" allow="autoplay; fullscreen" allowfullscreen></iframe></div>
+    <div class="responsive-wrapper">
+  <iframe src="https://www.tiktok.com/embed/7526451828708461832" allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
     <div class="video-box" id="ttRight"><iframe id="ttRightIframe" allow="autoplay" muted></iframe></div>
     <button class="nav-btn next-btn" onclick="moveTikTok(1)">❯</button>
   </div>
