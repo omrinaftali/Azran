@@ -82,13 +82,16 @@
       gap: 20px;
       padding: 20px 0;
     }
-    .video-box,
-    .tweet-box {
-      flex: 0 0 15%;
-      opacity: 0.4;
-      transform: scale(0.8);
-      transition: transform 0.3s, opacity 0.3s;
-    }
+ .video-box,
+.tweet-box {
+  aspect-ratio: 9 / 16;
+  max-height: 80vh;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
     .video-box.active,
     .tweet-box.active {
       flex: 0 0 60%;
