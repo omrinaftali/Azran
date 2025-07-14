@@ -82,39 +82,31 @@
       gap: 20px;
       padding: 20px 0;
     }
-.video-box iframe {
-  max-height: 90vh;
-  width: auto;
-  height: auto;
-  aspect-ratio: 9 / 16;
-  object-fit: scale-down;
-  border: none;
-  border-radius: 12px;
-  background-color: black;
-}
-
-.video-box iframe {
-  width: 100%;
-  height: 100%;
-  max-height: 90vh;
-  aspect-ratio: 9 / 16;
-  border: none;
-  border-radius: 12px;
-  background-color: black;
-  transform: scale(0.95); /* הקטנה קלה שתמנע חיתוך */
-  transform-origin: center center;
-}
-
-
-.tweet-box {
-  aspect-ratio: 9 / 16;
-  max-height: 80vh;
-  max-width: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .video-box {
+      flex: 0 0 60%;
+      aspect-ratio: 9 / 16;
+      background-color: black;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      object-fit: contain;
+    }
+    .tweet-box {
+      aspect-ratio: 9 / 16;
+      max-height: 80vh;
+      max-width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .video-box.active,
     .tweet-box.active {
       flex: 0 0 60%;
@@ -135,53 +127,13 @@
     }
     .prev-btn { right: 10px; }
     .next-btn { left: 10px; }
-@media (max-width: 768px) {
-  .carousel-wrapper {
-    padding: 10px 0;
-  }
 
-  .video-box {
-    width: 100vw;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-  }
-
-  .video-box iframe {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 9 / 16;
-    object-fit: contain;
-    transform: scale(0.95);
-    transform-origin: center;
-  }
-}
-
-.responsive-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 100vw;
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.responsive-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-
-
+    @media (max-width: 768px) {
+      .video-box {
+        flex: 0 0 100vw;
+        height: 90vh;
+      }
+    }
 
     .site-footer {
       background: #c40000;
@@ -233,11 +185,17 @@
   <h2 id="tiktokSection">הסרטונים שלי בטיקטוק</h2>
   <div class="carousel-wrapper" id="tiktokCarousel">
     <button class="nav-btn prev-btn" onclick="moveTikTok(-1)">❮</button>
-    <div class="video-box" id="ttLeft"><iframe id="ttLeftIframe" allow="autoplay" muted></iframe></div>
-    <div class="responsive-wrapper">
-  <iframe src="https://www.tiktok.com/embed/7526451828708461832" allow="autoplay; fullscreen" allowfullscreen></iframe>
-</div>
-    <div class="video-box" id="ttRight"><iframe id="ttRightIframe" allow="autoplay" muted></iframe></div>
+    
+    <div class="video-box" id="ttLeft">
+      <iframe id="ttLeftIframe" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    <div class="video-box active" id="ttCenter">
+      <iframe id="ttCenterIframe" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    <div class="video-box" id="ttRight">
+      <iframe id="ttRightIframe" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+    
     <button class="nav-btn next-btn" onclick="moveTikTok(1)">❯</button>
   </div>
 
@@ -267,38 +225,48 @@
     function toggleMenu() {
       document.getElementById("navLinks").classList.toggle("active");
     }
-    const tiktokVideos = ["7526451828708461832","7524710898032807185","7523845094424792338","7522376028627537159","7522003139143191816"];
+
+    const tiktokVideos = ["7526451828708461832", "7524710898032807185", "7523845094424792338", "7522376028627537159", "7522003139143191816"];
     let tiktokIdx = 0;
     const leftIframe = document.getElementById("ttLeftIframe");
     const centerIframe = document.getElementById("ttCenterIframe");
     const rightIframe = document.getElementById("ttRightIframe");
+
     function updateTikTok() {
       const left = tiktokVideos[(tiktokIdx - 1 + tiktokVideos.length) % tiktokVideos.length];
       const center = tiktokVideos[tiktokIdx];
       const right = tiktokVideos[(tiktokIdx + 1) % tiktokVideos.length];
+
       leftIframe.src = `https://www.tiktok.com/embed/${left}`;
       centerIframe.src = `https://www.tiktok.com/embed/${center}?autoplay=1`;
       rightIframe.src = `https://www.tiktok.com/embed/${right}`;
     }
+
     function moveTikTok(dir) {
       tiktokIdx = (tiktokIdx + dir + tiktokVideos.length) % tiktokVideos.length;
       updateTikTok();
     }
-    const tweets = ["1944614745178526092","1944486487522939235","1944444124544880702","1944439302844248321","1944430865884356829","1944404527135826189","1944377731547910382","1944375692021407992"];
+
+    const tweets = ["1944614745178526092", "1944486487522939235", "1944444124544880702", "1944439302844248321", "1944430865884356829", "1944404527135826189", "1944377731547910382", "1944375692021407992"];
     let tweetIdx = 0;
+
     function updateTweets() {
       const left = tweets[(tweetIdx - 1 + tweets.length) % tweets.length];
       const center = tweets[tweetIdx];
       const right = tweets[(tweetIdx + 1) % tweets.length];
+
       document.getElementById("twLeft").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${left}"></a></blockquote>`;
       document.getElementById("twCenter").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${center}"></a></blockquote>`;
       document.getElementById("twRight").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${right}"></a></blockquote>`;
+
       twttr.widgets.load();
     }
+
     function moveTweet(dir) {
       tweetIdx = (tweetIdx + dir + tweets.length) % tweets.length;
       updateTweets();
     }
+
     updateTikTok();
     updateTweets();
   </script>
