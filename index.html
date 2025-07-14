@@ -9,269 +9,102 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
-      font-family: Arial, sans-serif;
+    /* =========  RESET & GLOBAL  ========= */
+    :root {
+      --red:#c40000;
+      --white:#ffffff;
+      --gray:#ccc;
     }
+    *,*::before,*::after{box-sizing:border-box}
+    body,html{margin:0;padding:0;height:100%;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
 
-    /* רקע וידאו */
-    .video-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      object-fit: cover;
-    }
+    /* =========  VIDEO BACKGROUND  ========= */
+    .video-background{position:fixed;top:0;left:0;min-width:100%;min-height:100%;object-fit:cover;z-index:-1}
 
-    .top-bar {
-    background: #c40000;
-    color: #eee;
-    padding: 20px 20px; /* היה 10px - הגדלנו לגובה כפול */
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
+    /* =========  TOP BAR  ========= */
+    .top-bar{background:var(--red);color:#eee;padding:20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 5px rgba(0,0,0,.3)}
+    .bar-container{display:flex;align-items:center;justify-content:space-between;position:relative}
+    .about{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+    .bar-logo{position:absolute;left:50%;transform:translateX(-50%);height:60px;max-width:80vw}
 
-    .bar-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    }
+    /* =========  NAV LINKS  ========= */
+    .nav-links{display:flex;gap:15px;margin-right:auto}
+    .nav-links a{color:var(--gray);text-decoration:none;font-weight:bold;font-size:14px}
+    .nav-links a:hover{color:var(--white)}
+    .menu-toggle{display:none;font-size:28px;cursor:pointer;color:var(--white)}
 
-    .about {
-      font-size: 14px;
-    }
+    /* =========  SECTION TITLES  ========= */
+    .section-title{background:var(--red);color:var(--white);text-align:center;border-radius:10px;padding:12px 0;margin:32px auto 16px;width:min(90%,320px);font-size:24px;line-height:1.3}
 
-    .nav-links {
-      display: flex;
-      gap: 15px;
-      margin-right: auto;
-    }
+    /* =========  CAROUSELS  ========= */
+    .carousel-wrapper,.tweet-carousel{display:flex;justify-content:center;align-items:center;gap:20px;position:relative;touch-action:pan-y;user-select:none;height:80vh}
+    .video-box,.tweet-box{width:15vw;height:25vh;opacity:.5;transform:scale(.85);transition:transform .3s,opacity .3s;pointer-events:none}
+    .video-box.active,.tweet-box.active{width:40vw;height:75vh;opacity:1;transform:scale(1);pointer-events:auto}
+    .tweet-box.active{margin-right:0}
+    iframe{width:100%;height:100%;border:0;border-radius:12px}
 
-    .nav-links a {
-      color: #ccc;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 14px;
-    }
+    /* NAV BUTTONS */
+    .nav-btn{position:absolute;top:50%;transform:translateY(-50%);font-size:30px;background:var(--white);border:0;border-radius:50%;cursor:pointer;padding:6px 14px;z-index:10}
+    .prev-btn{right:10px}.next-btn{left:10px}
 
-    .nav-links a:hover {
-      color: #fff;
-    }
+    /* =========  FOOTER  ========= */
+    .site-footer{background:var(--red);color:var(--white);padding:40px 20px;margin-top:60px;text-align:center}
+    .footer-container{max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:20px}
+    .footer-container h5{margin:0;font-size:18px}
+    .social-links a{color:var(--gray);font-size:24px;margin:0 10px;text-decoration:none}
+    .social-links a:hover{color:var(--white)}
+    .footer-copy{font-size:14px;color:#aaa}
 
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      cursor: pointer;
-    }
+    /* =========  MOBILE  ========= */
+    @media(max-width:768px){
+      .top-bar{padding:15px}
+      .menu-toggle{display:block}
+      .nav-links{display:none;flex-direction:column;width:100%;margin-top:10px}
+      .nav-links.active{display:flex}
+      .bar-logo{height:48px;top:8px}
 
-    .bar-logo {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        height: 50px;
-        }
-
-
-    
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-        color: #fff;
-      }
-
-        .bar-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        }
-
-    }
-
-    h2 {
-    text-align: center;
-    margin: 20px 0 10px;
-    color: white;
-    background-color: #c40000;
-    padding: 10px 0;
-    border-radius: 8px;
-    width: 13%;
-    margin-inline: auto;
-    }
-
-    .carousel-wrapper,
-    .tweet-carousel {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      position: relative;
-      touch-action: pan-y;
-      user-select: none;
-      height: 90vh;
-    }
-
-    .video-box,
-    .tweet-box {
-      width: 15vw;
-      height: 25vh;
-      opacity: 0.5;
-      transform: scale(0.85);
-      transition: transform 0.3s, opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .video-box.active {
-      width: 40vw;
-      height: 80vh;
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-    }
-
-    .tweet-box.active {
-      width: 40vw;
-      height: 80vh;
-      opacity: 1;
-      transform: scale(1);
-      pointer-events: auto;
-      margin-right: 12vw;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 12px;
-    }
-
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 30px;
-      background: #fff;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      padding: 5px 12px;
-      z-index: 10;
-    }
-
-    .prev-btn { right: 10px; }
-    .next-btn { left: 10px; }
-
-    .site-footer {
-      background: #c40000;
-      color: white;
-      padding: 40px 20px;
-      margin-top: 60px;
-      text-align: center;
-    }
-
-    .footer-container {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .footer-container h5 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .email-link {
-      color: #ccc;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .email-link:hover {
-      color: white;
-    }
-
-    .social-links a {
-      color: #ccc;
-      font-size: 24px;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-
-    .social-links a:hover {
-      color: white;
-    }
-
-    .footer-copy {
-      font-size: 14px;
-      color: #aaa;
+      /* carousels full width */
+      .carousel-wrapper,.tweet-carousel{height:auto;flex-direction:column}
+      .video-box,.tweet-box{width:90vw;height:65vh;transform:scale(1);opacity:1}
+      .nav-btn{font-size:24px;padding:4px 10px}
+      .section-title{font-size:20px;width:90%}
     }
   </style>
 </head>
 <body>
-
-  <!-- רקע וידאו -->
+  <!-- BACKGROUND  -->
   <video autoplay muted loop class="video-background">
     <source src="background1.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
+  <!-- TOP BAR -->
   <header class="top-bar">
-<div class="bar-container">
-  <div class="about">
-    מטומטם וגם טמבל, האתר הרשמי של מור עזרן
-  </div>
-
-<img src="Hapoel_tlv_old.jpg" alt="לוגו הפועל" class="bar-logo" />
-
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <nav class="nav-links" id="navLinks">
-    <a href="#tiktokSection">טיקטוק</a>
-    <a href="#twitterSection">טוויטר</a>
-    <a href="https://www.htafc.co.il/#popup-matches-list" target="_blank" rel="noopener noreferrer">לוח משחקים</a>
-    <a href="https://www.leaan.co.il/category/ספורט/כדורגל/הפועל-תל-אביב" target="_blank" rel="noopener noreferrer">רכישת כרטיסים</a>
-  </nav>
-</div>
+    <div class="bar-container">
+      <div class="about">מטומטם וגם טמבל, האתר הרשמי של מור עזרן</div>
+      <img src="Hapoel_tlv_old.jpg" alt="לוגו הפועל" class="bar-logo"/>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#tiktokSection">טיקטוק</a>
+        <a href="#twitterSection">טוויטר</a>
+        <a href="https://www.htafc.co.il/#popup-matches-list" target="_blank" rel="noopener">לוח משחקים</a>
+        <a href="https://www.leaan.co.il/category/ספורט/כדורגל/הפועל-תל-אביב" target="_blank" rel="noopener">רכישת כרטיסים</a>
+      </nav>
+    </div>
   </header>
 
-  <h2 id="tiktokSection">הסרטונים שלי בטיקטוק</h2>
+  <!-- TIKTOK SECTION -->
+  <h2 class="section-title" id="tiktokSection">הסרטונים שלי בטיקטוק</h2>
   <div class="carousel-wrapper" id="tiktokCarousel">
     <button class="nav-btn prev-btn" onclick="moveTikTok(-1)">❮</button>
-    <div class="video-box" id="ttLeft">
-      <iframe id="ttLeftIframe" allow="autoplay" muted></iframe>
-    </div>
-    <div class="video-box active" id="ttCenter">
-      <iframe id="ttCenterIframe" allow="autoplay" allowfullscreen></iframe>
-    </div>
-    <div class="video-box" id="ttRight">
-      <iframe id="ttRightIframe" allow="autoplay" muted></iframe>
-    </div>
+    <div class="video-box" id="ttLeft"><iframe id="ttLeftIframe" allow="autoplay" muted></iframe></div>
+    <div class="video-box active" id="ttCenter"><iframe id="ttCenterIframe" allow="autoplay" allowfullscreen></iframe></div>
+    <div class="video-box" id="ttRight"><iframe id="ttRightIframe" allow="autoplay" muted></iframe></div>
     <button class="nav-btn next-btn" onclick="moveTikTok(1)">❯</button>
   </div>
-  <br><br>
-  <h2 id="twitterSection">הציוצים שלי בטוויטר</h2>
+
+  <!-- TWITTER SECTION -->
+  <h2 class="section-title" id="twitterSection">הציוצים שלי בטוויטר</h2>
   <div class="tweet-carousel" id="tweetCarousel">
     <button class="nav-btn prev-btn" onclick="moveTweet(-1)">❮</button>
     <div class="tweet-box" id="twLeft"></div>
@@ -280,82 +113,39 @@
     <button class="nav-btn next-btn" onclick="moveTweet(1)">❯</button>
   </div>
 
+  <!-- FOOTER -->
   <footer class="site-footer" id="contact">
     <div class="footer-container">
-      <div>
-        <h5><i class=""></i>הפועל תראי מה קרה לי, חושב שאני לא נורמלי</h5>
-      </div>
+      <h5>הפועל תראי מה קרה לי, חושב שאני לא נורמלי</h5>
       <div class="social-links">
         <a href="https://x.com/AzranMor" target="_blank"><i class="bi bi-twitter"></i></a>
         <a href="https://www.tiktok.com/@azranmor?is_from_webapp=1&sender_device=pc" target="_blank"><i class="bi bi-tiktok"></i></a>
         <a href="https://instagram.com/morazran" target="_blank"><i class="bi bi-instagram"></i></a>
       </div>
-      <div class="footer-copy">© 2025 .Omri Naftali. All rights reserved</div>
+      <div class="footer-copy">© 2025 Omri Naftali. All rights reserved</div>
     </div>
   </footer>
 
+  <!-- SCRIPTS -->
   <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
   <script>
-    function toggleMenu() {
-      document.getElementById("navLinks").classList.toggle("active");
-    }
+    /* MENU */
+    function toggleMenu(){document.getElementById("navLinks").classList.toggle("active")}
 
-    const tiktokVideos = [
-      "7526451828708461832",
-      "7524710898032807185",
-      "7523845094424792338",
-      "7522376028627537159",
-      "7522003139143191816"
-    ];
-    let tiktokIdx = 0;
+    /* TIKTOK SETUP */
+    const tiktokVideos=["7526451828708461832","7524710898032807185","7523845094424792338","7522376028627537159","7522003139143191816"];
+    let tiktokIdx=0;
+    const leftIframe=document.getElementById("ttLeftIframe"),centerIframe=document.getElementById("ttCenterIframe"),rightIframe=document.getElementById("ttRightIframe");
+    function updateTikTok(){const left=tiktokVideos[(tiktokIdx-1+tiktokVideos.length)%tiktokVideos.length],center=tiktokVideos[tiktokIdx],right=tiktokVideos[(tiktokIdx+1)%tiktokVideos.length];leftIframe.src=`https://www.tiktok.com/embed/${left}`;centerIframe.src=`https://www.tiktok.com/embed/${center}?autoplay=1`;rightIframe.src=`https://www.tiktok.com/embed/${right}`}
+    function moveTikTok(dir){tiktokIdx=(tiktokIdx+dir+tiktokVideos.length)%tiktokVideos.length;updateTikTok()}
 
-    const leftIframe = document.getElementById("ttLeftIframe");
-    const centerIframe = document.getElementById("ttCenterIframe");
-    const rightIframe = document.getElementById("ttRightIframe");
+    /* TWITTER SETUP */
+    const tweets=["1944614745178526092","1944486487522939235","1944444124544880702","1944439302844248321","1944430865884356829","1944404527135826189","1944377731547910382","1944375692021407992"];
+    let tweetIdx=0;
+    function updateTweets(){const left=tweets[(tweetIdx-1+tweets.length)%tweets.length],center=tweets[tweetIdx],right=tweets[(tweetIdx+1)%tweets.length];document.getElementById("twLeft").innerHTML=`<blockquote class='twitter-tweet'><a href='https://twitter.com/AzranMor/status/${left}'></a></blockquote>`;document.getElementById("twCenter").innerHTML=`<blockquote class='twitter-tweet'><a href='https://twitter.com/AzranMor/status/${center}'></a></blockquote>`;document.getElementById("twRight").innerHTML=`<blockquote class='twitter-tweet'><a href='https://twitter.com/AzranMor/status/${right}'></a></blockquote>`;twttr.widgets.load()}
+    function moveTweet(dir){tweetIdx=(tweetIdx+dir+tweets.length)%tweets.length;updateTweets()}
 
-    function updateTikTok() {
-      const left = tiktokVideos[(tiktokIdx - 1 + tiktokVideos.length) % tiktokVideos.length];
-      const center = tiktokVideos[tiktokIdx];
-      const right = tiktokVideos[(tiktokIdx + 1) % tiktokVideos.length];
-
-      leftIframe.src = `https://www.tiktok.com/embed/${left}`;
-      centerIframe.src = `https://www.tiktok.com/embed/${center}?autoplay=1`;
-      rightIframe.src = `https://www.tiktok.com/embed/${right}`;
-    }
-
-    function moveTikTok(dir) {
-      tiktokIdx = (tiktokIdx + dir + tiktokVideos.length) % tiktokVideos.length;
-      updateTikTok();
-    }
-
-    const tweets = [
-      "1944614745178526092",
-      "1944486487522939235",
-      "1944444124544880702",
-      "1944439302844248321",
-      "1944430865884356829",
-      "1944404527135826189",
-      "1944377731547910382",
-      "1944375692021407992"
-    ];
-    let tweetIdx = 0;
-
-    function updateTweets() {
-      const left = tweets[(tweetIdx - 1 + tweets.length) % tweets.length];
-      const center = tweets[tweetIdx];
-      const right = tweets[(tweetIdx + 1) % tweets.length];
-
-      document.getElementById("twLeft").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${left}"></a></blockquote>`;
-      document.getElementById("twCenter").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${center}"></a></blockquote>`;
-      document.getElementById("twRight").innerHTML = `<blockquote class="twitter-tweet"><a href="https://twitter.com/AzranMor/status/${right}"></a></blockquote>`;
-      twttr.widgets.load();
-    }
-
-    function moveTweet(dir) {
-      tweetIdx = (tweetIdx + dir + tweets.length) % tweets.length;
-      updateTweets();
-    }
-
+    /* INIT */
     updateTikTok();
     updateTweets();
   </script>
