@@ -95,7 +95,8 @@
 
 .video-box iframe {
   width: auto;
-  height: 100%;
+  height: 70vh;
+  aspect-ratio: 9 / 16;
   max-width: 100%;
   object-fit: contain;
   border: none;
@@ -133,34 +134,19 @@
     }
     .prev-btn { right: 10px; }
     .next-btn { left: 10px; }
-    @media (max-width: 768px) {
-  .carousel-wrapper,
-  .tweet-carousel {
-    flex-direction: row;
-    overflow-x: hidden;
-    gap: 10px;
-    height: 90vh;
-  }
-
-  .video-box,
-  .tweet-box {
-    width: 25vw;
-    height: 25vh;
-  }
-
-  .video-box.active,
-  .tweet-box.active {
-    width: 90vw;
-    height: 80vh;
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  .nav-btn {
-    font-size: 22px;
-    padding: 4px 10px;
+@media (max-width: 768px) {
+  .video-box iframe {
+    width: auto;
+    height: 70vh;
+    aspect-ratio: 9 / 16;
+    max-width: 100%;
+    object-fit: contain;
+    border: none;
+    border-radius: 12px;
+    background-color: black;
   }
 }
+
 
     .site-footer {
       background: #c40000;
